@@ -91,11 +91,15 @@ func homeLink(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-	router := mux.NewRouter().StrictSlash(true)
 	port := ":8080"
+	router := mux.NewRouter().StrictSlash(true)
 	router.HandleFunc("/", homeLink)
-	router.HandleFunc("/1event", getOneEvent)
-	router.HandleFunc("/allevent", getAllEvents)
-	fmt.Println("Listening server at port :8080")
+	router.HandleFunc("/event", createEvent).Methods("POST")
+	router.HandleFunc("/events", getAllEvents).Methods("GET")
+	router.HandleFunc("/events/{id}", getOneEvent).Methods("GET")
+	router.HandleFunc("/events/{id}", updateEvent).Methods("PATCH")
+	router.HandleFunc("/events/{id}", deleteEvent).Methods("DELETE")
+	fmt.Printf("Listening server on port %v", port)
 	log.Fatal(http.ListenAndServe(port, router))
+
 }
