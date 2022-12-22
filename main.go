@@ -62,6 +62,8 @@ func main() {
 	router := mux.NewRouter().StrictSlash(true)
 	port := ":8080"
 	router.HandleFunc("/", homeLink)
+	router.HandleFunc("/1event", getOneEvent)
+	router.HandleFunc("/allevent", getAllEvents)
 	fmt.Println("Listening server at port :8080")
 	log.Fatal(http.ListenAndServe(port, router))
 }
